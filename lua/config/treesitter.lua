@@ -18,7 +18,11 @@ vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('config.pack.treesitter', {}),
   callback = function(info)
     local data = info.data
-    if data.spec.name == 'nvim-treesitter' and data.active then
+    if
+      data.spec.name == 'nvim-treesitter'
+      and data.kind == 'update'
+      and data.active
+    then
       treesitter.update(nil, { summary = true })
     end
   end,
