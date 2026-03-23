@@ -13,8 +13,8 @@ map({ 'n', 'v' }, { 'k', '<Up>' }, 'v:count == 0 ? "gk" : "k"', nil, { expr = tr
 map('i', '<Down>', '<C-o>gj')
 map('i', '<Up>', '<C-o>gk')
 
--- Map <CR> to <Nop> in normal buffers
-map({ 'n', 'v' }, '<CR>', '&buftype == "" ? "" : "<CR>"', nil, { expr = true })
+-- Ignore <CR> in normal buffers
+map({ 'n', 'v' }, '<CR>', '&buftype == "" ? "<Ignore>" : "<CR>"', nil, { expr = true })
 
 -- Map `gr` so it behaves only as a prefix
 map('n', 'gr', '<Nop>', 'LSP Actions')
