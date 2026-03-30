@@ -29,5 +29,6 @@ map('v', '<BS>', '"_d', 'Delete to blackhole')
 -- Hide search highlights with Escape
 map('n', '<Esc>', '<Cmd>nohlsearch<Cr>', 'Hide search highlights')
 
--- Return to normal mode from terminal mode
-map('t', '<C-Esc>', '<C-Bslash><C-n>')
+-- Better terminal keymaps for <Esc>
+map('t', '<Esc>', '<C-Bslash><C-n>')
+map('t', '<C-Esc>', '<Esc>')
