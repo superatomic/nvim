@@ -14,10 +14,10 @@ map.leader_map('n', 'b', function()
   vim.ui.select(
     bufs,
     {
-      prompt = 'Buffers',
+      prompt = 'Switch buffer to:',
       format_item = function(item)
         local path = vim.api.nvim_buf_get_name(item)
-        return vim.fn.fnamemodify(path, ':~:.')
+        return path == '' and '[No Name]' or vim.fn.fnamemodify(path, ':~:.')
       end,
     },
     function(item)
