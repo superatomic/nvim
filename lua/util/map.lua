@@ -1,6 +1,6 @@
 local M = {}
 
-M.DEFAULT_OPTS = { noremap = true, silent = true }
+M.DEFAULT_OPTS = { remap = false, silent = true }
 
 function M._map(mode, lhs, rhs, desc, opts)
   if type(lhs) == 'table' then
