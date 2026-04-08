@@ -4,7 +4,7 @@ local map = require('util.map')
 map.leader_map('n', 'b', function()
   local bufs = vim.iter(vim.api.nvim_list_bufs())
     :filter(function(buf)
-      return vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted
+      return vim.bo[buf].buflisted
     end)
     :totable()
   if #bufs < 2 then
