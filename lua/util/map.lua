@@ -1,32 +1,35 @@
-local M = vim.empty_dict()
+local M = {}
 
 M.DEFAULT_OPTS = { noremap = true, silent = true }
 
-setmetatable(M, {
-  __call = function(_, mode, lhs, rhs, desc, opts)
-    if type(lhs) == 'table' then
-      vim.iter(lhs):each(function(lhs1) M(mode, lhs1, rhs, desc, opts) end)
-      return
-    end
-    opts = vim.tbl_extend('keep', opts or {}, { desc = desc }, M.DEFAULT_OPTS)
-    vim.keymap.set(mode, lhs, rhs, opts)
+function M._map(mode, lhs, rhs, desc, opts)
+  if type(lhs) == 'table' then
+    vim.iter(lhs):each(function(lhs1) M._map(mode, lhs1, rhs, desc, opts) end)
+    return
   end
-})
+  opts = vim.tbl_extend('keep', opts or {}, { desc = desc }, M.DEFAULT_OPTS)
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 
-function M.leader_group(section, group_desc, global_opts)
-  local modes = {} -- List of modes with `group_desc` added to them
-  local prefix = '<Leader>' .. (section or '')
+function M.expr(mode, lhs, rhs, desc, opts)
+  opts = vim.tbl_extend('keep', opts or {}, { expr = true })
+  M._map(mode, lhs, rhs, desc, opts)
+end
+
+function M._buffer_mapper(buf)
   return function(mode, lhs, rhs, desc, opts)
-    opts = vim.tbl_extend('keep', opts or {}, global_opts or {})
-    if group_desc ~= nil and not vim.list_contains(modes, mode) then
-      -- Add description for prefix
-      vim.keymap.set(mode, prefix, '<Nop>', { desc = group_desc })
-      table.insert(modes, mode)
-    end
-    M(mode, prefix .. lhs, rhs, desc, opts)
+    opts = vim.tbl_extend('keep', opts or {}, { buf = buf })
+    M._map(mode, lhs, rhs, desc, opts)
   end
 end
 
-M.leader_map = M.leader_group('', 'Leader')
+setmetatable(M, {
+  __call = function(_, ...)
+    M._map(...)
+  end,
+  __index = function(_, ...)
+    return M._buffer_mapper(...)
+  end,
+})
 
 return M

@@ -1,7 +1,7 @@
 local map = require('util.map')
 
 -- Buffer picker
-map.leader_map('n', 'b', function()
+map('n', '<Leader>b', function()
   local bufs = vim.iter(vim.api.nvim_list_bufs())
     :filter(function(buf)
       return vim.bo[buf].buflisted

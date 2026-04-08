@@ -8,13 +8,13 @@ map('v', '<C-S-c>', '"+ygv', 'Copy to Clipboard')
 map('n', 'U', '<C-r>', 'Redo')
 
 -- Visual movement
-map({ 'n', 'v' }, { 'j', '<Down>' }, 'v:count == 0 ? "gj" : "j"', nil, { expr = true })
-map({ 'n', 'v' }, { 'k', '<Up>' }, 'v:count == 0 ? "gk" : "k"', nil, { expr = true })
-map('i', '<Down>', '<C-o>gj')
-map('i', '<Up>', '<C-o>gk')
+map.expr({ 'n', 'x' }, { 'j', '<Down>' }, 'v:count == 0 ? "gj" : "j"')
+map.expr({ 'n', 'x' }, { 'k', '<Up>' }, 'v:count == 0 ? "gk" : "k"')
+map({ 'i', 's' }, '<Down>', '<C-o>gj')
+map({ 'i', 's' }, '<Up>', '<C-o>gk')
 
 -- Ignore <CR> in normal buffers
-map({ 'n', 'v' }, '<CR>', '&buftype == "" ? "<Ignore>" : "<CR>"', nil, { expr = true })
+map.expr({ 'n', 'x' }, '<CR>', '&buftype == "" ? "<Ignore>" : "<CR>"')
 
 -- Map `gr` so it behaves only as a prefix
 map('n', 'gr', '<Nop>', 'LSP Actions')
@@ -24,7 +24,7 @@ map('n', 'grd', vim.lsp.buf.definition, 'vim.lsp.buf.definition()')
 map({ 'n', 'i' }, '<C-LeftMouse>',
   '<LeftMouse><Cmd>lua vim.lsp.buf.definition()<Cr>')
 
-map('v', '<BS>', '"_d', 'Delete to blackhole')
+map('x', '<BS>', '"_d', 'Delete to blackhole')
 
 -- Hide search highlights with Escape
 map('n', '<Esc>', '<Cmd>nohlsearch<Cr>', 'Hide search highlights')

@@ -23,20 +23,20 @@ require('gitsigns').setup {
     local gitsigns = require('gitsigns')
     local map = require('util.map')
 
-    local git_map = map.leader_group('g', 'Git', { buffer = bufnr })
+    local bmap = map[bufnr]
 
     -- Stage
-    git_map('n', 'a', gitsigns.stage_hunk, 'Stage/Unstage')
-    git_map('v', 'a', function()
+    bmap('n', '<Leader>ga', gitsigns.stage_hunk, 'Stage/Unstage')
+    bmap('v', '<Leader>ga', function()
       gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, 'Stage/Unstage')
-    git_map('n', 'A', gitsigns.stage_buffer, 'Stage/Unstage All')
+    bmap('n', '<Leader>gA', gitsigns.stage_buffer, 'Stage/Unstage All')
 
     -- Reset
-    git_map('n', 'r', gitsigns.reset_hunk, 'Reset')
-    git_map('v', 'r', function()
+    bmap('n', '<Leader>gr', gitsigns.reset_hunk, 'Reset')
+    bmap('v', '<Leader>gr', function()
       gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, 'Reset')
-    git_map('n', 'R', gitsigns.reset_buffer, 'Reset All')
+    bmap('n', '<Leader>gR', gitsigns.reset_buffer, 'Reset All')
   end,
 }
