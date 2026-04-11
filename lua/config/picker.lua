@@ -4,7 +4,7 @@ local map = require('util.map')
 map('n', '<Leader>b', function()
   local bufs = vim.iter(vim.api.nvim_list_bufs())
     :filter(function(buf)
-      return vim.bo[buf].buflisted
+      return vim.bo[buf].buflisted and vim.bo[buf].buftype ~= 'quickfix'
     end)
     :totable()
   if #bufs < 2 then
