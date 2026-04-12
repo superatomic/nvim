@@ -16,6 +16,9 @@ map({ 'i', 's' }, '<Up>', '<C-o>gk')
 -- Ignore <CR> in normal buffers
 map.expr({ 'n', 'x' }, '<CR>', '&buftype == "" ? "<Ignore>" : "<CR>"')
 
+--- <Leader> by itself does nothing
+map({ 'n', 'x' }, { '<Leader>', '<Localleader>' }, '<Nop>')
+
 -- Delete to black hole
 map('x', '<BS>', '"_d', 'Delete to black hole')
 
