@@ -6,6 +6,18 @@ vim.lsp.config('*', {
   exit_timeout = 100,
 })
 
+-- ------- --
+-- Keymaps --
+-- ------- --
+
+local map = require('util.map')
+
+-- Map `gr` so it behaves only as a prefix
+map('n', 'gr', '<Nop>', 'LSP Actions')
+
+-- Goto Definition
+map('n', 'grd', vim.lsp.buf.definition, 'vim.lsp.buf.definition()')
+
 -- ----------------------------------------------------- --
 -- Install Mason packages for servers and enable clients --
 -- ----------------------------------------------------- --

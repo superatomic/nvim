@@ -16,15 +16,8 @@ map({ 'i', 's' }, '<Up>', '<C-o>gk')
 -- Ignore <CR> in normal buffers
 map.expr({ 'n', 'x' }, '<CR>', '&buftype == "" ? "<Ignore>" : "<CR>"')
 
--- Map `gr` so it behaves only as a prefix
-map('n', 'gr', '<Nop>', 'LSP Actions')
-
--- Goto Definition
-map('n', 'grd', vim.lsp.buf.definition, 'vim.lsp.buf.definition()')
-map({ 'n', 'i' }, '<C-LeftMouse>',
-  '<LeftMouse><Cmd>lua vim.lsp.buf.definition()<Cr>')
-
-map('x', '<BS>', '"_d', 'Delete to blackhole')
+-- Delete to black hole
+map('x', '<BS>', '"_d', 'Delete to black hole')
 
 -- Hide search highlights with Escape
 map('n', '<Esc>', '<Cmd>nohlsearch<Cr>', 'Hide search highlights')
