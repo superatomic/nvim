@@ -33,13 +33,6 @@ conform.setup {
 
 vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
--- Use :LspFormat to format the entire buffer
-vim.api.nvim_create_user_command(
-  'LspFormat',
-  function() vim.lsp.buf.format() end,
-  { desc = 'Format current buffer' }
-)
-
 -- ----------- --
 -- Completions --
 -- ----------- --
