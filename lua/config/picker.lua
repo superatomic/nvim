@@ -27,7 +27,7 @@ map('n', '<Leader>b', function()
 end, 'Buffers')
 
 -- File picker |fuzzy-file-picker|
-vim.cmd([[
+vim.cmd [[
   set findfunc=Find
   func Find(arg, _)
     if empty(s:filescache)
@@ -39,4 +39,4 @@ vim.cmd([[
   endfunc
   let s:filescache = []
   autocmd CmdlineEnter : let s:filescache = []
-]])
+]]
