@@ -27,14 +27,14 @@ require('gitsigns').setup {
 
     -- Stage
     bmap('n', '<Leader>ga', gitsigns.stage_hunk, 'Stage/Unstage')
-    bmap('v', '<Leader>ga', function()
+    bmap('x', '<Leader>ga', function()
       gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, 'Stage/Unstage')
     bmap('n', '<Leader>gA', gitsigns.stage_buffer, 'Stage/Unstage All')
 
     -- Reset
     bmap('n', '<Leader>gr', gitsigns.reset_hunk, 'Reset')
-    bmap('v', '<Leader>gr', function()
+    bmap('x', '<Leader>gr', function()
       gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, 'Reset')
     bmap('n', '<Leader>gR', gitsigns.reset_buffer, 'Reset All')
