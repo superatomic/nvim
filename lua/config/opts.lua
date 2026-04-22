@@ -18,6 +18,7 @@ vim.opt.title = true
 vim.opt.splitbelow = false
 vim.opt.splitright = true
 vim.opt.wrapscan = true
+vim.opt.timeout = false
 vim.opt.pumheight = 10
 
 if vim.fn.executable('fish') == 1 then
