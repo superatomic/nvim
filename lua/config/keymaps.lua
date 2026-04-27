@@ -28,3 +28,6 @@ map('n', '<Esc>', '<Cmd>nohlsearch<Cr>', 'Hide search highlights')
 -- Better terminal keymaps for <Esc>
 map('t', '<Esc>', '<C-Bslash><C-n>')
 map('t', '<C-Esc>', '<Esc>')
+
+-- Ignore `q:` since I keep accidentally pressing it instead of `:q`
+map('n', 'q:', '<Ignore>')
