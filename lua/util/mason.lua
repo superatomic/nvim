@@ -1,4 +1,4 @@
-M = vim.empty_dict()
+local M = {}
 
 M.registry = nil
 
