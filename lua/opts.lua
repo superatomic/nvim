@@ -91,8 +91,9 @@ vim.cmd.aunmenu 'PopUp.-2-'
 -- Leader --
 -- ------ --
 
-vim.g.mapleader = ' '
-vim.g.maplocalleader = '\\'
+local k = vim.keycode
+vim.g.mapleader = k'<Space>'
+vim.g.maplocalleader = k'<Bslash>'
 
 -- ------- --
 -- Plugins --
