@@ -1,7 +1,7 @@
 LSP configurations adapted from <https://github.com/neovim/nvim-lspconfig>.
 
 In addition to the standard `vim.lsp.Config` fields, these configurations
-support two additional fields, implemented by `lua/config/lsp.lua`. These are:
+support two additional fields, implemented by `plugin/lsp.lua`. These are:
 
 - `mason`: Details about the mason package that should be installed to use the
   language server. Can be a string (the name of the mason package) or a table

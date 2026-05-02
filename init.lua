@@ -5,23 +5,4 @@ end
 
 vim.loader.enable()
 
-local attempt = require('util.attempt')
-
-require 'config.opts'
-attempt 'config.ui'
-attempt 'config.colorscheme'
-attempt 'config.pack'
-attempt 'config.mason'
-attempt 'config.treesitter'
-attempt 'config.lsp'
-attempt 'config.win'
-attempt 'config.editor'
-attempt 'config.completion'
-attempt 'config.picker'
-attempt 'config.quickfix'
-attempt 'config.git'
-attempt 'config.statusline'
-attempt 'config.sessions'
-attempt 'config.spell'
-attempt 'config.keymaps'
-attempt 'config.kitty'
+require 'opts'
