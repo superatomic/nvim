@@ -113,6 +113,6 @@ vim.api.nvim_create_autocmd({ 'LspAttach', 'LspDetach' }, {
 -- ------- --
 
 -- Use global statusline
-vim.opt.laststatus = 3
+vim.o.laststatus = 3
 
 vim.g.qf_disable_statusline = true
