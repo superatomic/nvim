@@ -1,3 +1,10 @@
+-- Set spelling options
+vim.o.spell = true
+vim.o.spelllang = 'en'
+vim.o.spelloptions = 'camel'
+vim.o.spellsuggest = 'best'
+vim.o.spellcapcheck = ''
+
 -- Regenerate outdated vim spell lists
 for file in vim.iter(vim.api.nvim_get_runtime_file('spell/*.add', true)) do
   if vim.fn.getftime(file) > vim.fn.getftime(file .. '.spl') then
@@ -10,17 +17,14 @@ require('nvim.spellfile').config {
   confirm = false,
 }
 
--- Set 'spell' to true in normal buffers (see `:h 'buftype'`)
-vim.api.nvim_create_autocmd('BufEnter', {
+-- Set `nospell` in non-normal buffers
+vim.api.nvim_create_autocmd('OptionSet', {
+  pattern = 'buftype',
   group = vim.api.nvim_create_augroup('config.spell', {}),
-  callback = vim.schedule_wrap(function(args)
-    if args.buf == vim.api.nvim_get_current_buf() then
-      vim.wo.spell = vim.bo.buftype == ''
+  callback = function()
+    if vim.bo.buftype ~= '' then
+      vim.wo[0][0].spell = false
     end
-  end),
+  end,
 })
 
--- Set spelling options
-vim.opt.spelllang = 'en'
-vim.opt.spelloptions:append('camel')
-vim.opt.spellcapcheck = ''
