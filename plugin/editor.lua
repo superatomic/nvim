@@ -31,7 +31,7 @@ conform.setup {
   notify_on_error = true,
 }
 
-vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+vim.o.formatexpr = [[v:lua.require('conform').formatexpr()]]
 
 -- ------- --
 -- Folding --
