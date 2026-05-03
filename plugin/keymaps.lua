@@ -31,3 +31,11 @@ map('t', '<C-Esc>', '<Esc>')
 
 -- Ignore `q:` since I keep accidentally pressing it instead of `:q`
 map('n', 'q:', '<Ignore>')
+
+-- "Entire buffer" text object
+-- See <https://github.com/neovim/neovim/issues/39209>
+map('o', 'ag', function()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.cmd('keepjumps norm! gg' .. vim.v.operator .. 'G')
+  vim.api.nvim_win_set_cursor(0, pos)
+end)
