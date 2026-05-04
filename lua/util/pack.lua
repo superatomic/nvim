@@ -2,6 +2,7 @@ local host_prefixes = {
   github = 'https://github.com/',
   gitlab = 'https://gitlab.com/',
   codeberg = 'https://codeberg.org/',
+  nvim = 'https://github.com/neovim/nvim-',
   mini = 'https://github.com/nvim-mini/mini.',
 }
 

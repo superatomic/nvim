@@ -1,11 +1,3 @@
--- -------------------------------- --
--- Global configuration for clients --
--- -------------------------------- --
-
-vim.lsp.config('*', {
-  exit_timeout = 100,
-})
-
 -- ------- --
 -- Keymaps --
 -- ------- --
@@ -18,59 +10,58 @@ map('n', 'gr', '<Nop>', 'LSP Actions')
 -- Goto Definition
 map('n', 'grd', vim.lsp.buf.definition, 'vim.lsp.buf.definition()')
 
--- ----------------------------------------------------- --
--- Install Mason packages for servers and enable clients --
--- ----------------------------------------------------- --
+-- -------------------------------------- --
+-- Install Mason packages and Enable LSPs --
+-- -------------------------------------- --
+
+require 'util.pack' {
+  'nvim:lspconfig',
+}
 
 local mason = require('util.mason')
 
-local function in_config(file)
-  return vim.fs.relpath(vim.fn.stdpath('config') --[[@as string]], file) ~= nil
+local lsp_servers = {
+  bashls = { 'bash-language-server', 'shellcheck', 'shfmt' },
+  fish_lsp = { 'fish-lsp' },
+  jsonls = { 'json-lsp' },
+  lua_ls = { 'lua-language-server@3.5.6' },
+  pylsp = { 'python-lsp-server' },
+  rust_analyzer = { 'rust-analyzer' },
+  systemd_lsp = { 'systemd-lsp' },
+}
+
+for name, packages in pairs(lsp_servers) do
+  -- Enable the LSP in a callback only after all of the required packages for
+  -- it have been installed.
+  local installed = 0
+  local callback = function()
+    installed = installed + 1
+    if installed == #packages then
+      vim.schedule_wrap(vim.lsp.enable)(name)
+    end
+  end
+
+  for package in vim.iter(packages) do
+    local package_name, package_version = unpack(vim.split(package, '@'))
+    mason.add(package_name, { version = package_version }, callback)
+  end
 end
 
--- Handle LSP spec files
-for file in vim.iter(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
-  local lsp_name = file:match('[^/]*.lua$'):gsub('.lua$', '')
-  local success, spec = pcall(function()
-    return vim.lsp.config[lsp_name]
-  end)
+-- ------ --
+-- Config --
+-- ------ --
 
-  -- Skip if disabled or invalid
-  if
-    not success
-    or not spec
-    or spec.enabled == false
-    or (spec.enabled == nil and not in_config(file))
-  then
-    goto continue
-  end
+vim.lsp.config('*', {
+  exit_timeout = 100,
+})
 
-  local package_name, version, dependencies
-  if type(spec.mason) == 'table' then
-    package_name = spec.mason[1]
-    version = spec.mason.version
-    dependencies = spec.mason.dependencies
-  else
-    package_name = spec.mason
-    version = nil
-    dependencies = nil
-  end
+vim.lsp.config('lua_ls', {
+  exit_timeout = true,
+})
 
-  -- Install via Mason if needed, then enable the LSP
-  if package_name then
-    mason.add(
-      package_name,
-      { version = version },
-      vim.schedule_wrap(function() vim.lsp.enable(lsp_name) end)
-    )
-  else
-    vim.lsp.enable(lsp_name)
-  end
-
-  -- Install dependencies for spec via Mason
-  for dependency_name in vim.iter(dependencies or {}) do
-    mason.add(dependency_name)
-  end
-
-  ::continue::
-end
+vim.lsp.config('jsonls', {
+  -- Server does not respect `json.schemaDownload.enable`,
+  -- so just unshare the network (Linux-only workaround; see unshare(1)).
+  -- See <https://matrix.to/#/!cylwlNXSwagQmZSkzs:matrix.org/$sHIRlZ453Sopu0OaIE_ZGCOHl2SnUusg21GI3ko4GBk>.
+  cmd = { 'unshare', '-n', '-r', 'vscode-json-language-server', '--stdio' },
+})
