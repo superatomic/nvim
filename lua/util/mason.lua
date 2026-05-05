@@ -29,25 +29,46 @@ local function install(name, opts, callback)
 end
 
 --- Add a package
----
---- @param name string Name of the package
---- @param opts table|nil Options to pass into `package:install()`
---- @param callback function|nil Function to run once package is installed
-function M.add(name, opts, callback)
-  M._ensure_mason()
-  opts = opts or {}
+--- @param package string
+--- @param callback? function
+local function add_one(package, callback)
+  local name, version = unpack(vim.split(package, '@'))
 
   table.insert(added_packages, name)
 
   local wrong_version = (
-    opts.version
-    and M.registry.get_package(name):get_installed_version() ~= opts.version
+    version
+    and M.registry.get_package(name):get_installed_version() ~= version
   )
 
   if not M.registry.is_installed(name) or wrong_version then
-    install(name, opts, callback)
+    install(name, { version = version }, callback)
   elseif callback then
     callback()
+  end
+end
+
+--- Add a package
+---
+--- @param packages string|string[] Package name or list of package names
+--- @param callback? function Function to run once packages are installed
+function M.add(packages, callback)
+  M._ensure_mason()
+  if type(packages) == 'string' then
+    add_one(packages, callback)
+  else
+    -- Run callback only after all packages have been installed
+    local installed = 0
+    local wrapper_callback = function()
+      installed = installed + 1
+      if installed == #packages and callback then
+        callback()
+      end
+    end
+
+    for package in vim.iter(packages) do
+      add_one(package, wrapper_callback)
+    end
   end
 end
 

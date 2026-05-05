@@ -31,20 +31,7 @@ local lsp_servers = {
 }
 
 for name, packages in pairs(lsp_servers) do
-  -- Enable the LSP in a callback only after all of the required packages for
-  -- it have been installed.
-  local installed = 0
-  local callback = function()
-    installed = installed + 1
-    if installed == #packages then
-      vim.schedule_wrap(vim.lsp.enable)(name)
-    end
-  end
-
-  for package in vim.iter(packages) do
-    local package_name, package_version = unpack(vim.split(package, '@'))
-    mason.add(package_name, { version = package_version }, callback)
-  end
+  mason.add(packages, vim.schedule_wrap(function() vim.lsp.enable(name) end))
 end
 
 -- ------ --
