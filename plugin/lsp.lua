@@ -22,6 +22,7 @@ local mason = require('util.mason')
 
 local lsp_servers = {
   bashls = { 'bash-language-server', 'shellcheck', 'shfmt' },
+  clangd = { 'clangd' },
   fish_lsp = { 'fish-lsp' },
   jsonls = { 'json-lsp' },
   lua_ls = { 'lua-language-server@3.5.6' },
