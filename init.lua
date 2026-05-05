@@ -24,6 +24,18 @@ if vim.fn.executable('fish') == 1 then
   vim.o.shell = 'fish'
 end
 
+-- UI2
+local msg_height = 0.5
+require('vim._core.ui2').enable {
+  enabled = true,
+  msg = {
+    cmd = { height = msg_height },
+    dialog = { height = msg_height },
+    msg = { height = msg_height },
+    pager = { height = msg_height },
+  },
+}
+
 -- ---------------- --
 -- Buffer (General) --
 -- ---------------- --
