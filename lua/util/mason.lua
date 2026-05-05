@@ -4,21 +4,26 @@ M.registry = nil
 
 local added_packages = {}
 
-function M._ensure_mason()
+local config = {
+  ui = {
+    check_outdated_packages_on_open = false,
+    icons = {
+      package_installed = '\u{2713}',
+      package_pending = '\u{279c}',
+      package_uninstalled = '\u{2717}',
+    },
+  },
+}
+
+function M.ensure_mason()
   if M.registry ~= nil then
     return
   end
   require 'util.pack' {
     'github:mason-org/mason.nvim',
   }
-  require('mason').setup()
+  require('mason').setup(config)
   M.registry = require('mason-registry')
-end
-
---- Setup mason
-function M.setup(...)
-  M._ensure_mason()
-  return require('mason').setup(...)
 end
 
 local function install(name, opts, callback)
@@ -53,7 +58,7 @@ end
 --- @param packages string|string[] Package name or list of package names
 --- @param callback? function Function to run once packages are installed
 function M.add(packages, callback)
-  M._ensure_mason()
+  M.ensure_mason()
   if type(packages) == 'string' then
     add_one(packages, callback)
   else
@@ -81,7 +86,7 @@ end
 
 --- Remove unused packages
 function M.clean()
-  M._ensure_mason()
+  M.ensure_mason()
   for name in vim.iter(M.registry.get_installed_package_names()) do
     if not vim.list_contains(added_packages, name) then
       M.registry.get_package(name):uninstall()
