@@ -10,13 +10,13 @@ local mason = require('util.mason')
 
 local lsps = {
   bashls = { 'bash-language-server', 'shellcheck', 'shfmt' },
-  clangd = { 'clangd' },
-  fish_lsp = { 'fish-lsp' },
-  jsonls = { 'json-lsp' },
-  lua_ls = { 'lua-language-server@3.5.6' },
-  pylsp = { 'python-lsp-server' },
-  rust_analyzer = { 'rust-analyzer' },
-  systemd_lsp = { 'systemd-lsp' },
+  clangd = 'clangd',
+  fish_lsp = 'fish-lsp',
+  jsonls = 'json-lsp',
+  lua_ls = 'lua-language-server@3.5.6',
+  pylsp = 'python-lsp-server',
+  rust_analyzer = 'rust-analyzer',
+  systemd_lsp = 'systemd-lsp',
 }
 
 for name, packages in pairs(lsps) do
