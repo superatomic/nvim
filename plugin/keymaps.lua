@@ -38,11 +38,3 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'RecordingLeave' }, {
 vim.api.nvim_create_autocmd('RecordingEnter', {
   callback = function() vim.keymap.del('n', 'q:') end,
 })
-
--- "Entire buffer" text object
--- See <https://github.com/neovim/neovim/issues/39209>
-map('o', 'ag', function()
-  local pos = vim.api.nvim_win_get_cursor(0)
-  vim.cmd('keepjumps norm! gg' .. vim.v.operator .. 'G')
-  vim.api.nvim_win_set_cursor(0, pos)
-end)
