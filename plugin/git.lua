@@ -1,4 +1,4 @@
-require 'util.pack' {
+pack {
   -- Fugitive
   { 'github:tpope/vim-fugitive', name = 'fugitive.vim' },
 

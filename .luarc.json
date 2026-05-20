@@ -8,5 +8,8 @@
     "library": [
       "$VIMRUNTIME"
     ]
-  }
+  },
+  "diagnostics.globals": [
+    "pack"
+  ]
 }

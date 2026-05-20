@@ -1,4 +1,4 @@
-require 'util.pack' {
+pack {
   { 'github:catppuccin/nvim', name = 'catppuccin' },
 }
 
