@@ -64,7 +64,7 @@ local diagnostics = table.concat {
   "%{% luaeval('",
     "(",
       "package.loaded[''vim.diagnostic''] ",
-      "and #vim.diagnostic.count() ~= 0 ",
+      "and next(vim.diagnostic.count())",
       "and vim.diagnostic.status() .. '' ''",
     ") or '''' ",
   "')%}",
