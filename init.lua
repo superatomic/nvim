@@ -117,6 +117,10 @@ vim.g.maplocalleader = k'<Bslash>'
 -- Plugins --
 -- ------- --
 
+vim.api.nvim_create_autocmd('VimEnter', {
+  command = 'DoMatchParen',
+})
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_tutor_mode_plugin = 1
