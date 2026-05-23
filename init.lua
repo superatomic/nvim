@@ -52,8 +52,7 @@ vim.o.breakindent = true
 vim.opt.breakindentopt:append('list:-1')
 
 -- Use autocommand to override any changes made by ftplugins
-vim.api.nvim_create_autocmd('BufEnter', {
-  group = vim.api.nvim_create_augroup('config.opts', {}),
+vim.api.nvim_create_autocmd('FileType', {
   command = 'setlocal formatoptions-=o',
 })
 
