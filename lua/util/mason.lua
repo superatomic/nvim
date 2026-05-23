@@ -6,7 +6,7 @@ local added_packages = {}
 
 local config = {
   ui = {
-    check_outdated_packages_on_open = false,
+    check_outdated_packages_on_open = true,
     icons = {
       package_installed = '\u{2713}',
       package_pending = '\u{279c}',
