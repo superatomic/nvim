@@ -1,4 +1,4 @@
-pack { 'github:nvim-treesitter/nvim-treesitter' }
+pack 'github:nvim-treesitter/nvim-treesitter'
 
 local treesitter = require('nvim-treesitter')
 

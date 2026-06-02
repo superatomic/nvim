@@ -18,17 +18,15 @@ end
 --- Add plugin to current session
 ---
 --- Simple wrapper around |vim.pack.add()|.
---- @param specs (string|table)[]
-return function(specs)
-  specs = vim.iter(specs):map(function(spec)
-    if type(spec) == 'string' then
-      spec = expand_host(spec)
-    elseif type(spec) == 'table' and spec.src == nil then
-      spec = vim.deepcopy(spec)
-      spec.src = expand_host(spec[1])
-      spec[1] = nil
-    end
-    return spec
-  end):totable()
-  vim.pack.add(specs, { confirm = false })
+--- @param spec string|table
+return function(spec)
+  vim.validate('spec', spec, { 'string', 'table' })
+  if type(spec) == 'string' then
+    spec = expand_host(spec)
+  elseif type(spec) == 'table' and spec.src == nil then
+    spec = vim.deepcopy(spec)
+    spec.src = expand_host(spec[1])
+    spec[1] = nil
+  end
+  vim.pack.add({ spec }, { confirm = false })
 end

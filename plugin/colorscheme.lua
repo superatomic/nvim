@@ -1,6 +1,4 @@
-pack {
-  { 'github:catppuccin/nvim', name = 'catppuccin' },
-}
+pack { 'github:catppuccin/nvim', name = 'catppuccin' }
 
 vim.api.nvim_create_autocmd('OptionSet', {
   pattern = 'termguicolors',

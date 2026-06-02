@@ -18,7 +18,7 @@ vim.diagnostic.config {
 -- Formatting --
 -- ---------- --
 
-pack { 'github:stevearc/conform.nvim' }
+pack 'github:stevearc/conform.nvim'
 
 local conform = require('conform')
 
@@ -90,7 +90,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 -- Todo Comments and Highlighting --
 -- ------------------------------ --
 
-pack { 'mini:hipatterns' }
+pack 'mini:hipatterns'
 
 local hi_patterns = require('mini.hipatterns')
 
@@ -108,7 +108,7 @@ hi_patterns.setup {
 -- Indentation --
 -- ----------- --
 
-pack { 'github:NMAC427/guess-indent.nvim' }
+pack 'github:NMAC427/guess-indent.nvim'
 
 require('guess-indent').setup {
   auto_cmd = true,

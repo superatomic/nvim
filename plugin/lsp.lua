@@ -2,7 +2,7 @@
 -- Install Mason packages and Enable LSPs --
 -- -------------------------------------- --
 
-pack { 'nvim:lspconfig' }
+pack 'nvim:lspconfig'
 
 local mason = require('util.mason')
 

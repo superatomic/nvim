@@ -1,12 +1,10 @@
-pack {
-  -- Fugitive
-  { 'github:tpope/vim-fugitive', name = 'fugitive.vim' },
+-- Fugitive
+pack { 'github:tpope/vim-fugitive', name = 'fugitive.vim' }
 
-  -- Gitsigns
-  'github:lewis6991/gitsigns.nvim',
-  'github:purarue/gitsigns-yadm.nvim',
-  'github:nvim-lua/plenary.nvim',
-}
+-- Gitsigns
+pack 'github:lewis6991/gitsigns.nvim'
+pack 'github:purarue/gitsigns-yadm.nvim'
+pack 'github:nvim-lua/plenary.nvim'
 
 require('gitsigns').setup {
   sign_priority = 100,
