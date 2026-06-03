@@ -2,13 +2,15 @@ pack { 'github:catppuccin/nvim', name = 'catppuccin' }
 
 vim.api.nvim_create_autocmd('OptionSet', {
   pattern = 'termguicolors',
-  group = vim.api.nvim_create_augroup('config.colorscheme', {}),
+  once = true,
   callback = function()
     if vim.o.termguicolors then
       vim.cmd.colorscheme 'catppuccin-macchiato'
       vim.api.nvim_set_hl(0, 'VisualCursor', { link = 'MiniStatuslineModeVisual' })
-    else
-      vim.cmd.colorscheme 'default'
+      if vim.fn.exists(':Catppuccin') == 2 then
+        vim.api.nvim_del_user_command('Catppuccin')
+        vim.api.nvim_del_user_command('CatppuccinCompile')
+      end
     end
   end,
 })
