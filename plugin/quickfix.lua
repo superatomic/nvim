@@ -4,13 +4,9 @@ local map = require('util.map')
 -- Quickfix Behavior --
 -- ----------------- --
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'qf',
-  group = vim.api.nvim_create_augroup('config.quickfix', {}),
-  callback = function(info)
-    map[info.buf]('n', '<Esc>', '<Cmd>bd<CR>', 'Close Window')
-  end,
-})
+on('FileType', { pattern = 'qf', group = 'config.quickfix' }, function(info)
+  map[info.buf]('n', '<Esc>', '<Cmd>bd<CR>', 'Close Window')
+end)
 
 -- ------- --
 -- Keymaps --

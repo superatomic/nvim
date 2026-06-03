@@ -32,9 +32,9 @@ map('t', '<C-Esc>', '<Esc>')
 -- Ignore `q:` since I keep accidentally pressing it instead of `:q`
 -- This keymap needs to be removed during macro recording, otherwise it breaks
 -- `q`'s ability to end recordings.
-vim.api.nvim_create_autocmd({ 'VimEnter', 'RecordingLeave' }, {
-  callback = function() map('n', 'q:', '<Ignore>') end,
-})
-vim.api.nvim_create_autocmd('RecordingEnter', {
-  callback = function() vim.keymap.del('n', 'q:') end,
-})
+on({ 'VimEnter', 'RecordingLeave' }, {}, function()
+  map('n', 'q:', '<Ignore>')
+end)
+on('RecordingEnter', {}, function()
+  vim.keymap.del('n', 'q:')
+end)

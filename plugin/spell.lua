@@ -18,12 +18,8 @@ require('nvim.spellfile').config {
 }
 
 -- Set `nospell` in non-normal buffers
-vim.api.nvim_create_autocmd('OptionSet', {
-  pattern = 'buftype',
-  group = vim.api.nvim_create_augroup('config.spell', {}),
-  callback = function()
-    if vim.bo.buftype ~= '' then
-      vim.wo[0][0].spell = false
-    end
-  end,
-})
+on('OptionSet', { pattern = 'buftype', group = 'config.spell' }, function()
+  if vim.bo.buftype ~= '' then
+    vim.wo[0][0].spell = false
+  end
+end)

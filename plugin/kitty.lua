@@ -1,6 +1,6 @@
 -- Kitty autocommand setup
 if vim.env.TERM == 'xterm-kitty' then
-  local kitty_group = vim.api.nvim_create_augroup('config.kitty', {})
+  local group = vim.api.nvim_create_augroup('config.kitty', { clear = true })
 
   -- Set terminal background color to nvim's background color
   local function set_term_bg()
@@ -11,31 +11,22 @@ if vim.env.TERM == 'xterm-kitty' then
     end
   end
 
-  vim.api.nvim_create_autocmd({ 'VimEnter', 'VimResume' }, {
-    group = kitty_group,
-    callback = function()
-      -- Set terminal background color
-      vim.api.nvim_ui_send('\x1b]30001\007') -- Push unmodified colors onto stack
-      set_term_bg()
+  on({ 'VimEnter', 'VimResume' }, { group = group }, function()
+    -- Set terminal background color
+    vim.api.nvim_ui_send('\x1b]30001\007') -- Push unmodified colors onto stack
+    set_term_bg()
 
-      -- Set variable `in_nvim=1` when inside neovim.
-      -- See <https://sw.kovidgoyal.net/kitty/mapping/>.
-      vim.api.nvim_ui_send('\x1b]1337;SetUserVar=in_nvim=MQo\007')
-    end,
-  })
+    -- Set variable `in_nvim=1` when inside neovim.
+    -- See <https://sw.kovidgoyal.net/kitty/mapping/>.
+    vim.api.nvim_ui_send('\x1b]1337;SetUserVar=in_nvim=MQo\007')
+  end)
 
-  vim.api.nvim_create_autocmd({ 'VimLeave', 'VimSuspend' }, {
-    group = kitty_group,
-    callback = function()
-      vim.api.nvim_ui_send('\x1b]1337;SetUserVar=in_nvim\007')
-      vim.api.nvim_ui_send('\x1b]30101\007') -- Pop colors from stack
-    end,
-  })
+  on({ 'VimLeave', 'VimSuspend' }, { group = group }, function()
+    vim.api.nvim_ui_send('\x1b]1337;SetUserVar=in_nvim\007')
+    vim.api.nvim_ui_send('\x1b]30101\007') -- Pop colors from stack
+  end)
 
-  vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
-    group = kitty_group,
-    callback = set_term_bg,
-  })
+  on('ColorScheme', { group = group }, set_term_bg)
 end
 
 -- Clipboard nonsense to avoid using wl-paste

@@ -2,6 +2,7 @@
 -- Lua Setup --
 -- --------- --
 
+on = require('util.on')
 pack = require('util.pack')
 
 -- ------------ --
@@ -52,9 +53,7 @@ vim.o.breakindent = true
 vim.opt.breakindentopt:append('list:-1')
 
 -- Use autocommand to override any changes made by ftplugins
-vim.api.nvim_create_autocmd('FileType', {
-  command = 'setlocal formatoptions-=o',
-})
+on('FileType', {}, 'setlocal formatoptions-=o')
 
 -- ------------- --
 -- Status Column --
@@ -116,9 +115,7 @@ vim.g.maplocalleader = k'<Bslash>'
 -- Plugins --
 -- ------- --
 
-vim.api.nvim_create_autocmd('VimEnter', {
-  command = 'DoMatchParen',
-})
+on('VimEnter', {}, 'DoMatchParen')
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

@@ -99,14 +99,13 @@ vim.o.statusline = table.concat {
 -- Autocommands --
 -- ------------ --
 
-local statusline_group = vim.api.nvim_create_augroup('config.statusline', {})
-
-vim.api.nvim_create_autocmd({ 'LspAttach', 'LspDetach' }, {
-  group = statusline_group,
-  callback = vim.schedule_wrap(function()
+on(
+  { 'LspAttach', 'LspDetach' },
+  { group = 'config.statusline' },
+  vim.schedule_wrap(function()
     vim.cmd.redrawstatus()
-  end),
-})
+  end)
+)
 
 -- ------- --
 -- Options --

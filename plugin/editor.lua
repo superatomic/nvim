@@ -75,16 +75,13 @@ vim.o.foldlevelstart = 99
 -- Trailing Whitespace --
 -- ------------------- --
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  group = vim.api.nvim_create_augroup('config.whitespace', {}),
-  callback = function()
-    if vim.bo.modified then
-      local pos = vim.api.nvim_win_get_cursor(0)
-      vim.cmd [[keeppatterns %s/\s\+$//e]]
-      vim.api.nvim_win_set_cursor(0, pos)
-    end
-  end,
-})
+on('BufWritePre', { group = 'config.whitespace' }, function()
+  if vim.bo.modified then
+    local pos = vim.api.nvim_win_get_cursor(0)
+    vim.cmd [[keeppatterns %s/\s\+$//e]]
+    vim.api.nvim_win_set_cursor(0, pos)
+  end
+end)
 
 -- ------------------------------ --
 -- Todo Comments and Highlighting --
