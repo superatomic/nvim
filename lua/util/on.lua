@@ -6,7 +6,8 @@
 --- @return integer
 return function(events, opts, fn, desc)
   vim.validate('opts', opts, 'table')
-  vim.validate('callback', fn, { 'function', 'string' })
+  vim.validate('fn', fn, { 'function', 'string' })
+  vim.validate('desc', desc, 'string', true)
   if type(fn) == 'function' then
     opts.callback = fn
   else
