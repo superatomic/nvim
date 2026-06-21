@@ -9,20 +9,28 @@ if not pid then
   return
 end
 
-local session_file = vim.fs.joinpath(
+local restart_session_file = vim.fs.joinpath(
   vim.fn.stdpath('cache') --[[@as string]],
   'session-' .. pid .. '.tmp.vim'
 )
 
 on('VimLeave', {}, function()
+  local session_file
   if vim.v.exitreason == 'restart' then
-    vim.cmd.mksession { session_file, bang = true }
+    session_file = restart_session_file
+  else
+    -- When exiting normally, save the current session for easy restore
+    session_file = vim.fs.joinpath(
+      vim.fn.stdpath('state') --[[@as string]],
+      'session-last.vim'
+    )
   end
+  vim.cmd.mksession { session_file, bang = true }
 end)
 
 on('UIEnter', { once = true }, function()
   if vim.v.startreason == 'restart' then
-    vim.cmd.source { session_file }
+    vim.cmd.source { restart_session_file }
   end
-  vim.fs.rm(session_file, { force = true })
+  vim.fs.rm(restart_session_file, { force = true })
 end)
