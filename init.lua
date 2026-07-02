@@ -12,7 +12,7 @@ pack = require('util.pack')
 vim.o.tildeop = true
 vim.o.gdefault = true
 vim.o.showmode = false
-vim.o.exrc = true
+vim.o.exrc = false
 vim.opt.shortmess:append('I')
 vim.opt.display:append('uhex')
 vim.opt.guicursor:append('v:VisualCursor')
