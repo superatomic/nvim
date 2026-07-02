@@ -34,13 +34,10 @@ function vim.g.stl_indent()
   if vim.list_contains({ 'terminal', 'quickfix' }, vim.bo.buftype) then
     return ''
   elseif vim.bo.expandtab then
-    if vim.bo.shiftwidth ~= 0 then
-      return 'Spa:' .. vim.bo.shiftwidth
-    else
-      return 'Spa:' .. vim.bo.tabstop
-    end
+    local shiftwidth = vim.bo.shiftwidth > 0 and vim.bo.shiftwidth or vim.bo.tabstop
+    return 'Spa:' .. shiftwidth
   else
-    return 'Tab:' .. vim.bo.tabstop
+    return 'Tab'
   end
 end
 
