@@ -51,6 +51,7 @@ vim.o.smoothscroll = true
 vim.o.undofile = true
 vim.o.breakindent = true
 vim.opt.breakindentopt:append('list:-1')
+vim.o.colorcolumn = '+1'
 
 -- Use autocommand to override any changes made by ftplugins
 on('FileType', {}, 'setlocal formatoptions-=o')
