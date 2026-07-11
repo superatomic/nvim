@@ -1,5 +1,3 @@
-local map = require('util.map')
-
 -- ----------------- --
 -- Quickfix Behavior --
 -- ----------------- --

@@ -12,8 +12,6 @@ vim.o.pumheight = 10
 -- Keymaps --
 -- ------- --
 
-local map = require('util.map')
-
 local function pum(active, inactive)
   return function()
     if vim.fn.pumvisible() ~= 0 then

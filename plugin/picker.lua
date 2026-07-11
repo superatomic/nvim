@@ -1,5 +1,3 @@
-local map = require('util.map')
-
 -- Buffer picker
 map('n', '<Leader>b', function()
   local bufs = vim.iter(vim.api.nvim_list_bufs())

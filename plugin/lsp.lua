@@ -44,8 +44,6 @@ vim.lsp.config('jsonls', {
 -- Keymaps --
 -- ------- --
 
-local map = require('util.map')
-
 -- Map `gr` so it behaves only as a prefix
 map('n', 'gr', '<Nop>', 'LSP Actions')
 

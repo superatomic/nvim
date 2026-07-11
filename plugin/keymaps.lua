@@ -1,5 +1,3 @@
-local map = require('util.map')
-
 -- Clipboard
 map('v', '<C-S-x>', '"+d', 'Cut to Clipboard')
 map('v', '<C-S-c>', '"+ygv', 'Copy to Clipboard')

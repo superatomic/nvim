@@ -2,6 +2,7 @@
 -- Lua Setup --
 -- --------- --
 
+map = require('util.map')
 on = require('util.on')
 pack = require('util.pack')
 

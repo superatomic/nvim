@@ -19,7 +19,6 @@ require('gitsigns').setup {
   end,
   on_attach = function(bufnr)
     local gitsigns = require('gitsigns')
-    local map = require('util.map')
 
     local bmap = map[bufnr]
 
