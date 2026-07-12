@@ -1,4 +1,4 @@
-pack { 'github:catppuccin/nvim', name = 'catppuccin' }
+pack { 'github:catppuccin/nvim', name = 'catppuccin.nvim' }
 
 on('OptionSet', { pattern = 'termguicolors', once = true }, function()
   if vim.o.termguicolors then
