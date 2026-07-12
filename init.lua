@@ -52,7 +52,13 @@ vim.o.smoothscroll = true
 vim.o.undofile = true
 vim.o.breakindent = true
 vim.opt.breakindentopt:append('list:-1')
-vim.o.colorcolumn = '+1'
+
+-- Display whitespace
+vim.o.list = true
+vim.opt.listchars = {
+  tab = '> ',
+  nbsp = '+',
+}
 
 -- Use autocommand to override any changes made by ftplugins
 on('FileType', {}, 'setlocal formatoptions-=o')
@@ -78,22 +84,6 @@ vim.opt.fillchars:append {
 
 -- Sign column
 vim.o.signcolumn = 'auto:1-9'
-
--- -------------------------- --
--- Indentation and Whitespace --
--- -------------------------- --
-
-vim.o.expandtab = true
-vim.o.shiftwidth = 2
-
-vim.o.tabstop = 4 -- Width of a <Tab> character
-vim.o.softtabstop = -1 -- Follow 'shiftwidth'
-
-vim.o.list = true
-vim.opt.listchars = {
-  tab = '> ',
-  nbsp = '+',
-}
 
 -- ----- --
 -- Mouse --

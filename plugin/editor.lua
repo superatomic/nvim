@@ -105,22 +105,3 @@ hi_patterns.setup {
     hex_color = hi_patterns.gen_highlighter.hex_color(),
   },
 }
-
--- ----------- --
--- Indentation --
--- ----------- --
-
-pack 'github:NMAC427/guess-indent.nvim'
-
-require('guess-indent').setup {
-  auto_cmd = true,
-  override_editorconfig = false,
-  on_tab_options = {
-    expandtab = false,
-    shiftwidth = 0,
-  },
-  on_space_options = {
-    expandtab = true,
-    shiftwidth = 'detected',
-  },
-}
