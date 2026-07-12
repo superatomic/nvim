@@ -1,7 +1,7 @@
 {
   "plugins": {
     "catppuccin": {
-      "rev": "49a926655a2f5579e9c276470fc300baaa49e524",
+      "rev": "05e8787020dcfdb937bf2ff23855ea2415b4e072",
       "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {
@@ -17,11 +17,11 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "gitsigns-yadm.nvim": {
-      "rev": "da5655074ab8b2e910104de280ce528f7f91f823",
+      "rev": "55575b2af68c0c6c73b1c1f8fe7c54e1e7fe8480",
       "src": "https://github.com/purarue/gitsigns-yadm.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "2038c666bd9d8a0b7349a0b6ee00dc83104b9ecf",
+      "rev": "eb60cc7b94c46005237fd34170d76f3a089a90aa",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -33,11 +33,11 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.hipatterns": {
-      "rev": "e25cf080aae092a651a92fa5e477f64a61adbebf",
+      "rev": "7c840c71d6a91f53d734cab2b6fe2290d285ec3b",
       "src": "https://github.com/nvim-mini/mini.hipatterns"
     },
     "nvim-lspconfig": {
-      "rev": "68b41349728f6d8ef68bbf75a589c148d4b0fcea",
+      "rev": "5955a100ae7155962330643924e21a798b9bdc91",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
