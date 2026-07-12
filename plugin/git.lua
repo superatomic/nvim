@@ -4,7 +4,6 @@ pack { 'github:tpope/vim-fugitive', name = 'fugitive.vim' }
 -- Gitsigns
 pack 'github:lewis6991/gitsigns.nvim'
 pack 'github:purarue/gitsigns-yadm.nvim'
-pack 'github:nvim-lua/plenary.nvim'
 
 require('gitsigns').setup {
   sign_priority = 100,
