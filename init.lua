@@ -55,7 +55,7 @@ vim.opt.breakindentopt:append('list:-1')
 
 -- Display whitespace
 vim.o.list = true
-vim.opt.listchars = {
+vim.o.listchars = {
   tab = '> ',
   nbsp = '+',
 }

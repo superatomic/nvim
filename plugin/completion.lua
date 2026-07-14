@@ -4,7 +4,7 @@
 
 vim.o.autocomplete = true
 vim.o.complete = 'o'
-vim.opt.completeopt = { 'menuone', 'noselect', 'popup', 'fuzzy' }
+vim.o.completeopt = { 'menuone', 'noselect', 'popup', 'fuzzy' }
 vim.opt.shortmess:append('c')
 vim.o.pumheight = 10
 
