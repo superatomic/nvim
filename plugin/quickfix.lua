@@ -2,8 +2,8 @@
 -- Quickfix Behavior --
 -- ----------------- --
 
-on('FileType', { pattern = 'qf', group = 'config.quickfix' }, function(info)
-  map[info.buf]('n', '<Esc>', '<Cmd>bd<CR>', 'Close Window')
+on('FileType', { pattern = 'qf' }, function(ev)
+  map[ev.buf]('n', '<Esc>', '<Cmd>bd<CR>', 'Close Window')
 end)
 
 -- ------- --

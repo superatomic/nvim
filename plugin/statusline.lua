@@ -96,13 +96,9 @@ vim.o.statusline = table.concat {
 -- Autocommands --
 -- ------------ --
 
-on(
-  { 'LspAttach', 'LspDetach' },
-  { group = 'config.statusline' },
-  vim.schedule_wrap(function()
-    vim.cmd.redrawstatus()
-  end)
-)
+on({ 'LspAttach', 'LspDetach' }, {}, function()
+  vim.schedule(vim.cmd.redrawstatus)
+end)
 
 -- ------- --
 -- Options --

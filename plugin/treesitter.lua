@@ -12,8 +12,8 @@ require('util.mason').add('tree-sitter-cli')
 -- Update parsers on plugin update --
 -- ------------------------------- --
 
-on('PackChanged', { group = 'config.pack.treesitter' }, function(info)
-  local data = info.data
+on('PackChanged', {}, function(ev)
+  local data = ev.data
   if
     data.spec.name == 'nvim-treesitter'
     and data.kind == 'update'
