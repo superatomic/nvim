@@ -25,16 +25,20 @@ function vim.g.stl_busy()
 end
 
 function vim.g.stl_lsp()
-  local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-  local lsp_names = vim.tbl_map(function(client) return client.name end, clients)
-  return table.concat(lsp_names, ',')
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  return vim.iter(clients)
+    :map(function(client)
+      return client.name
+    end)
+    :join(',')
 end
 
 function vim.g.stl_indent()
   if vim.list_contains({ 'terminal', 'quickfix' }, vim.bo.buftype) then
     return ''
   elseif vim.bo.expandtab then
-    local shiftwidth = vim.bo.shiftwidth > 0 and vim.bo.shiftwidth or vim.bo.tabstop
+    local shiftwidth = vim.bo.shiftwidth > 0 and vim.bo.shiftwidth
+      or vim.bo.tabstop
     return 'Spa:' .. shiftwidth
   else
     return 'Tab'
