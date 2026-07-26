@@ -51,7 +51,7 @@ require('vim._core.ui2').enable {
 vim.o.smoothscroll = true
 vim.o.undofile = true
 vim.o.breakindent = true
-vim.opt.breakindentopt:append('list:-1')
+vim.opt.breakindentopt:append { list = '-1' }
 
 -- Display whitespace
 vim.o.list = true
