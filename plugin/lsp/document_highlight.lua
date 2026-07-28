@@ -10,7 +10,7 @@ local document_highlight_types =
 --- @return boolean exists
 local function extmark_exists_at_pos(pos)
   if pos == nil then
-    pos = vim.pos.cursor(0)
+    pos = vim.pos.cursor()
   end
   local row, col = pos:to_extmark()
 
@@ -62,7 +62,7 @@ end)
 -- Override handler to filter out outdated document highlights.
 vim.lsp.handlers['textDocument/documentHighlight'] = (function(orig)
   return function(err, result, ctx)
-    local pos = vim.pos.cursor(0)
+    local pos = vim.pos.cursor()
     if
       result
       and ctx.bufnr == vim.api.nvim_get_current_buf()
