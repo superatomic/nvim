@@ -1,5 +1,7 @@
 --- Real-time Document Highlights
 
+local clear_references = vim.lsp.buf.clear_references
+
 local document_highlight_ns =
   vim.api.nvim_create_namespace('nvim.lsp.references')
 
@@ -27,13 +29,13 @@ local function extmark_exists_at_pos(pos)
 end
 
 --- Event (autocmd) callback to request document highlights
-local function ev_document_highlight()
+local function document_highlight()
   -- Stop early if cursor is on a document highlight group.
-  if extmark_exists_at_pos() or vim.fn.mode() ~= 'n' then
+  if vim.fn.mode() ~= 'n' or extmark_exists_at_pos() then
     return
   end
 
-  vim.lsp.buf.clear_references()
+  clear_references()
 
   local node = vim.treesitter.get_node()
   if node and vim.list_contains(document_highlight_types, node:type()) then
@@ -52,11 +54,27 @@ local function ev_document_highlight()
   end
 end
 
-on({ 'CursorMoved', 'TextChanged' }, {}, ev_document_highlight)
-on('ModeChanged', { pattern = '*:n*' },
-  vim.schedule_wrap(ev_document_highlight))
-on('ModeChanged', { pattern = 'n*:*' }, function()
-  vim.lsp.buf.clear_references()
+local group = vim.api.nvim_create_augroup('config.references')
+
+on('LspAttach', {}, function()
+  document_highlight()
+
+  on('CursorMoved', { buf = 0, group = group }, document_highlight)
+  on('TextChanged', { buf = 0, group = group }, function()
+    clear_references()
+    document_highlight()
+  end)
+  on('ModeChanged', { buf = 0, group = group }, function(ev)
+    if ev.match:match(':n.*$') then
+      document_highlight()
+    elseif ev.match:match('^n.*:') then
+      clear_references()
+    end
+  end)
+end)
+
+on('LspDetach', {}, function()
+  vim.api.nvim_clear_autocmds({ buf = 0, group = group })
 end)
 
 -- Override handler to filter out outdated document highlights.
