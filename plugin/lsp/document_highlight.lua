@@ -57,8 +57,7 @@ end
 local group = vim.api.nvim_create_augroup('config.references')
 
 on('LspAttach', {}, function()
-  document_highlight()
-
+  on('SafeState', { buf = 0, group = group, once = true }, document_highlight)
   on('CursorMoved', { buf = 0, group = group }, document_highlight)
   on('TextChanged', { buf = 0, group = group }, function()
     clear_references()
@@ -75,6 +74,7 @@ end)
 
 on('LspDetach', {}, function()
   vim.api.nvim_clear_autocmds({ buf = 0, group = group })
+  clear_references()
 end)
 
 -- Override handler to filter out outdated document highlights.
