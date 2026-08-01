@@ -22,7 +22,7 @@ local function foldtext_marker()
   return vim.fn.getline(vim.v.foldstart) .. ' ... ' .. fold_end
 end
 
-function vim.g.foldtext()
+function vim.o.foldtext()
   if vim.wo.foldmethod == 'marker' then
     return foldtext_marker()
   end
@@ -30,6 +30,5 @@ function vim.g.foldtext()
 end
 
 vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.o.foldtext = 'g:foldtext()'
+vim.o.foldexpr = vim.treesitter.foldexpr
 vim.o.foldlevelstart = 99
