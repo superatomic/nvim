@@ -36,12 +36,14 @@ treesitter.install(parsers)
 -- User Commands --
 -- ------------- --
 
-vim.api.nvim_create_user_command(
-  'TSUninstallAll',
-  function()
-    treesitter.uninstall(treesitter.get_installed())
-  end,
-  {
-    desc = 'Uninstall all treesitter parsers',
-  }
-)
+vim.api.nvim_create_user_command('TSUninstallAll', function()
+  treesitter.uninstall(treesitter.get_installed())
+end, { desc = 'Uninstall all treesitter parsers' })
+
+vim.api.nvim_create_user_command('TSStart', function()
+  vim.treesitter.start()
+end, { desc = 'vim.treesitter.start()' })
+
+vim.api.nvim_create_user_command('TSStop', function()
+  vim.treesitter.stop()
+end, { desc = 'vim.treesitter.stop()' })
