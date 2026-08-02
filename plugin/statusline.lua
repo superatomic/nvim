@@ -33,6 +33,14 @@ function vim.g.stl_lsp()
     :join(',')
 end
 
+function vim.g.stl_treesitter()
+  local buf = vim.api.nvim_get_current_buf()
+  if vim.treesitter.highlighter.active[buf] then -- Undocumented!
+    return 'H'
+  end
+  return ''
+end
+
 function vim.g.stl_indent()
   if vim.list_contains({ 'terminal', 'quickfix' }, vim.bo.buftype) then
     return ''
@@ -87,6 +95,7 @@ vim.o.statusline = table.concat {
   diagnostics,
   '%(%{stl_lsp()} %)',
   '%(%y %)',
+  '%(%{stl_treesitter()} %)',
   '%(%{stl_encoding()} %)',
   '%(%{stl_file_format()} %)',
   '%(%{stl_indent()} %)',
