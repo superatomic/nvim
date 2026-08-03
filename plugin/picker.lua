@@ -1,4 +1,7 @@
--- Buffer picker
+-- ------------- --
+-- Buffer Picker --
+-- ------------- --
+
 map('n', '<Leader>b', function()
   local bufs = vim.iter(vim.api.nvim_list_bufs())
     :filter(function(buf)
@@ -24,17 +27,32 @@ map('n', '<Leader>b', function()
   )
 end, 'Buffers')
 
--- File picker |fuzzy-file-picker|
-vim.cmd [[
-  set findfunc=Find
-  func Find(arg, _)
-    if empty(s:filescache)
-      let s:filescache = globpath('.', '**', 1, 1)
-      call filter(s:filescache, '!isdirectory(v:val)')
-      call map(s:filescache, "fnamemodify(v:val, ':.')")
-    endif
-    return a:arg == '' ? s:filescache : matchfuzzy(s:filescache, a:arg)
-  endfunc
-  let s:filescache = []
-  autocmd CmdlineEnter : let s:filescache = []
-]]
+-- ---------- --
+-- 'findfunc' --
+-- ---------- --
+
+local found_files = nil
+on('CmdlineEnter', {}, function() found_files = nil end)
+
+--- @param arg string the |:find| command argument
+function vim.o.findfunc(arg)
+  if not found_files then
+    found_files = {}
+    for name, type in
+      vim.fs.dir('.', {
+        depth = math.huge,
+        skip = function(name) return name ~= '.git' end,
+      })
+    do
+      local _, code = vim.wait(0, nil, 0)
+      if code == -2 then -- ^C
+        found_files = nil
+        return {}
+      end
+      if type ~= 'directory' then
+        found_files[#found_files + 1] = name
+      end
+    end
+  end
+  return arg == '' and found_files or vim.fn.matchfuzzy(found_files, arg)
+end
