@@ -78,26 +78,25 @@ on('LspDetach', {}, function()
 end)
 
 -- Override handler to filter out outdated document highlights.
-vim.lsp.handlers['textDocument/documentHighlight'] = (function(orig)
-  return function(err, result, ctx)
-    local pos = vim.pos.cursor()
-    if
-      result
-      and ctx.bufnr == vim.api.nvim_get_current_buf()
-      and vim.fn.mode() == 'n'
-      and extmark_exists_at_pos(pos)
-      and vim.iter(result):find(function(ref)
-        local ref_range = vim.range(
-          0,
-          ref.range['start'].line,
-          ref.range['start'].character,
-          ref.range['end'].line,
-          ref.range['end'].character - 1
-        )
-        return ref_range:has(pos)
-      end)
-    then
-      orig(err, result, ctx)
-    end
+local orig = vim.lsp.handlers['textDocument/documentHighlight']
+vim.lsp.handlers['textDocument/documentHighlight'] = function(err, result, ctx)
+  local pos = vim.pos.cursor()
+  if
+    result
+    and ctx.bufnr == vim.api.nvim_get_current_buf()
+    and vim.fn.mode() == 'n'
+    and extmark_exists_at_pos(pos)
+    and vim.iter(result):find(function(ref)
+      local ref_range = vim.range(
+        0,
+        ref.range['start'].line,
+        ref.range['start'].character,
+        ref.range['end'].line,
+        ref.range['end'].character - 1
+      )
+      return ref_range:has(pos)
+    end)
+  then
+    orig(err, result, ctx)
   end
-end)(vim.lsp.handlers['textDocument/documentHighlight'])
+end
