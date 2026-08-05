@@ -8,9 +8,6 @@ vim.o.completeopt = { 'menuone', 'noselect', 'popup', 'fuzzy' }
 vim.opt.shortmess:append('c')
 vim.o.pumheight = 10
 
--- Disable autocomplete for `ft=help` since it is slow and lags the editor
-on('FileType', { pattern = 'help' }, 'setlocal noautocomplete')
-
 -- ------- --
 -- Keymaps --
 -- ------- --
