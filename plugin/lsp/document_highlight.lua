@@ -1,4 +1,6 @@
---- Real-time Document Highlights
+-- ----------------------------- --
+-- Real-time Document Highlights --
+-- ----------------------------- --
 
 local clear_references = vim.lsp.buf.clear_references
 
@@ -6,24 +8,25 @@ local document_highlight_ns =
   vim.api.nvim_create_namespace('nvim.lsp.references')
 
 local document_highlight_types =
-  { 'identifier', 'field_identifier', 'type_identifier' }
+  { 'identifier', 'field_identifier', 'type_identifier', 'variable_name' }
 
 --- @param pos? vim.Pos
+--- @param hl_only? boolean
 --- @return boolean exists
-local function extmark_exists_at_pos(pos)
+local function extmark_exists_at_pos(pos, hl_only)
   if pos == nil then
     pos = vim.pos.cursor()
   end
   local row, col = pos:to_extmark()
 
-  local markers = vim.api.nvim_buf_get_extmarks(
+  local extmarks = vim.api.nvim_buf_get_extmarks(
     0,
     document_highlight_ns,
     { row, col },
     { row, col },
-    { overlap = true, details = true }
+    { overlap = true, details = true, type = hl_only and 'highlight' or nil }
   )
-  return vim.iter(markers):find(function(m)
+  return vim.iter(extmarks):find(function(m)
     return col ~= m[4].end_col -- Don't count positions directly after extmark
   end) ~= nil
 end
@@ -80,21 +83,25 @@ end)
 -- Override handler to filter out outdated document highlights.
 local orig = vim.lsp.handlers['textDocument/documentHighlight']
 vim.lsp.handlers['textDocument/documentHighlight'] = function(err, result, ctx)
-  local pos = vim.pos.cursor()
+  local cursor = vim.pos.cursor()
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
   if
     result
+    and client
     and ctx.bufnr == vim.api.nvim_get_current_buf()
     and vim.fn.mode() == 'n'
-    and extmark_exists_at_pos(pos)
+    and extmark_exists_at_pos(cursor)
+    and not extmark_exists_at_pos(cursor, true)
     and vim.iter(result):find(function(ref)
-      local ref_range = vim.range(
-        0,
-        ref.range['start'].line,
-        ref.range['start'].character,
-        ref.range['end'].line,
-        ref.range['end'].character - 1
+      local range = vim.range.lsp(0, ref.range, client.offset_encoding)
+      range = vim.range(
+        range.buf,
+        range.start_row,
+        range.start_col,
+        range.end_row,
+        range.end_col - 1
       )
-      return ref_range:has(pos)
+      return range:has(cursor)
     end)
   then
     orig(err, result, ctx)
