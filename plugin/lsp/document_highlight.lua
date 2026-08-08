@@ -107,3 +107,51 @@ vim.lsp.handlers['textDocument/documentHighlight'] = function(err, result, ctx)
     orig(err, result, ctx)
   end
 end
+
+-- ------------------------------ --
+-- "*" and "#" Jump to References --
+-- ------------------------------ --
+
+local function jump_next(rev)
+  return function()
+    local cursor = vim.pos.cursor()
+    if not extmark_exists_at_pos(cursor, true) then
+      return
+    end
+    local extmarks = vim.api.nvim_buf_get_extmarks(
+      0,
+      document_highlight_ns,
+      0,
+      -1,
+      { type = 'highlight', details = true }
+    )
+
+    local iter = vim.iter(extmarks):enumerate()
+    if rev then
+      iter = iter:rev()
+    end
+    iter:find(function(_, extmark)
+      local range = vim.range.extmark(
+        0,
+        extmark[2],
+        extmark[3],
+        extmark[4].end_row,
+        extmark[4].end_col - 1
+      )
+      return range:has(cursor)
+    end)
+    local index = iter:next() or (rev and #extmarks or 1)
+
+    vim.api.nvim_echo(
+      { { ('[%s/%s]'):format(index, #extmarks) } },
+      false,
+      {}
+    )
+    local target = extmarks[index]
+    local pos = vim.pos.extmark(0, target[2], target[3])
+    vim.api.nvim_win_set_cursor(0, pos:to_cursor())
+  end
+end
+
+map('n', '*', jump_next(false))
+map('n', '#', jump_next(true))
