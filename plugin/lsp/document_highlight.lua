@@ -4,8 +4,7 @@
 
 local clear_references = vim.lsp.buf.clear_references
 
-local document_highlight_ns =
-  vim.api.nvim_create_namespace('nvim.lsp.references')
+local ns = vim.api.nvim_create_namespace('nvim.lsp.references')
 
 local document_highlight_types =
   { 'identifier', 'field_identifier', 'type_identifier', 'variable_name' }
@@ -21,7 +20,7 @@ local function extmark_exists_at_pos(pos, hl_only)
 
   local extmarks = vim.api.nvim_buf_get_extmarks(
     0,
-    document_highlight_ns,
+    ns,
     { row, col },
     { row, col },
     { overlap = true, details = true, type = hl_only and 'highlight' or nil }
@@ -31,7 +30,17 @@ local function extmark_exists_at_pos(pos, hl_only)
   end) ~= nil
 end
 
---- Event (autocmd) callback to request document highlights
+--- Gets the bounds of the variable under the cursor, if it exists.
+--- @return vim.Range?
+local function get_variable_range()
+  local node = vim.treesitter.get_node()
+  if node and vim.list_contains(document_highlight_types, node:type()) then
+    return vim.range(0, node:range())
+  end
+  return nil
+end
+
+--- Event (autocmd) callback to request document highlights.
 local function document_highlight()
   -- Stop early if cursor is on a document highlight group.
   if vim.fn.mode() ~= 'n' or extmark_exists_at_pos() then
@@ -40,19 +49,17 @@ local function document_highlight()
 
   clear_references()
 
-  local node = vim.treesitter.get_node()
-  if node and vim.list_contains(document_highlight_types, node:type()) then
+  local r = get_variable_range()
+  if r then
     -- Create an extmark immediately (but with no highlight group) so the LSP
     -- request is not sent repeatedly.
-    local s_row, s_col, e_row, e_col = node:range()
     vim.api.nvim_buf_set_extmark(
       0,
-      document_highlight_ns,
-      s_row,
-      s_col,
-      { end_line = e_row, end_col = e_col }
+      ns,
+      r.start_row,
+      r.start_col,
+      { end_line = r.end_row, end_col = r.end_col, strict = false }
     )
-
     vim.lsp.buf.document_highlight()
   end
 end
@@ -120,7 +127,7 @@ local function jump_next(rev)
     end
     local extmarks = vim.api.nvim_buf_get_extmarks(
       0,
-      document_highlight_ns,
+      ns,
       0,
       -1,
       { type = 'highlight', details = true }
