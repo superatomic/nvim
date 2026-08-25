@@ -27,6 +27,7 @@ vim.o.splitbelow = false
 vim.o.splitright = true
 vim.o.wrapscan = true
 vim.o.timeout = false
+vim.o.updatetime = 250
 
 if vim.fn.executable('fish') == 1 then
   vim.o.shell = 'fish'
