@@ -20,8 +20,15 @@ map({ 'n', 'x' }, { '<Leader>', '<Localleader>' }, '<Nop>')
 -- Delete to black hole
 map('x', '<BS>', '"_d', 'Delete to black hole')
 
--- Hide search highlights with Escape
-map('n', '<Esc>', '<Cmd>nohlsearch<Cr>', 'Hide search highlights')
+-- Hide search highlights and extra cursors with Escape
+local mcursor_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+map('n', '<Esc>', function()
+  if vim.v.hlsearch ~= 0 then
+    vim.cmd.nohlsearch()
+  else
+    vim.api.nvim_buf_clear_namespace(0, mcursor_ns, 0, -1)
+  end
+end)
 
 -- Better terminal keymaps for <Esc>
 map('t', '<Esc>', '<C-Bslash><C-n>')
