@@ -111,13 +111,7 @@ vim.lsp.handlers['textDocument/documentHighlight'] = function(err, result, ctx)
     and not extmark_exists_at_pos(cursor, true)
     and vim.iter(result):find(function(ref)
       local range = vim.range.lsp(0, ref.range, client.offset_encoding)
-      range = vim.range(
-        range.buf,
-        range.start_row,
-        range.start_col,
-        range.end_row,
-        range.end_col - 1
-      )
+      range.end_col = range.end_col - 1
       return range:has(cursor)
     end)
   then
@@ -153,8 +147,9 @@ local function jump_next(rev)
         extmark[2],
         extmark[3],
         extmark[4].end_row,
-        extmark[4].end_col - 1
+        extmark[4].end_col
       )
+      range.end_col = range.end_col - 1
       return range:has(cursor)
     end)
     local index = iter:next() or (rev and #extmarks or 1)
