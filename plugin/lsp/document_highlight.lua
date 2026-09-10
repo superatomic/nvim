@@ -66,7 +66,11 @@ end
 
 local group = vim.api.nvim_create_augroup('config.references')
 
-on('LspAttach', {}, function()
+on('LspAttach', {}, function(ev)
+  local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+  if not client:supports_method('textDocument/documentHighlight') then
+    return
+  end
   on('SafeState', { buf = 0, group = group, once = true }, document_highlight)
   on('CursorMoved', { buf = 0, group = group }, document_highlight)
   on('TextChanged', { buf = 0, group = group }, function()
@@ -82,9 +86,15 @@ on('LspAttach', {}, function()
   end)
 end)
 
-on('LspDetach', {}, function()
-  vim.api.nvim_clear_autocmds({ buf = 0, group = group })
-  clear_references()
+on('LspDetach', {}, function(ev)
+  local clients = vim.lsp.get_clients({
+    bufnr = 0,
+    method = 'textDocument/documentHighlight',
+  })
+  if #clients == 1 and clients[1].id == ev.data.client_id then
+    vim.api.nvim_clear_autocmds({ buf = 0, group = group })
+    clear_references()
+  end
 end)
 
 -- Override handler to filter out outdated document highlights.
