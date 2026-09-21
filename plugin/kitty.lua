@@ -4,7 +4,7 @@ if vim.env.TERM == 'xterm-kitty' then
 
   -- Set terminal background color to nvim's background color
   local function set_term_bg()
-    local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
+    local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
     if normal_hl.bg ~= nil then
       local bg_hex = string.format('#%06x', normal_hl.bg)
       vim.api.nvim_ui_send('\x1b]21;background=' .. bg_hex .. '\007')
